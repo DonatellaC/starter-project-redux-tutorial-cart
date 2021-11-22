@@ -7,41 +7,29 @@ import cartItems from "./cart-items";
 // redux store
 import { createStore } from "redux";
 
-//import action variables
-import { DECREASE, INCREASE } from "./actions";
+//import reducer
+import reducer from "./reducer";
+
+import { Provider } from "react-redux";
 
 //initial store
 const initialStore = {
-  count: 0,
+  cart: cartItems,
+  total: 0,
+  amount: 3,
 };
-
-// reducer
-function reducer(state, action) {
-  console.log({ state, action });
-  if (action.type === DECREASE) {
-    return { count: state.count - 1 };
-  }
-  if (action.type === INCREASE) {
-    return { count: state.count + 1 };
-  }
-
-  return state;
-}
 
 //store
 const store = createStore(reducer, initialStore);
-store.dispatch({ type: DECREASE });
-store.dispatch({ type: INCREASE });
-console.log(store.getState());
 
 function App() {
   // cart setup
 
   return (
-    <main>
-      <Navbar cart={store.getState()} />
+    <Provider store={store}>
+      <Navbar />
       <CartContainer cart={cartItems} />
-    </main>
+    </Provider>
   );
 }
 
